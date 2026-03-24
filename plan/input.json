@@ -1,0 +1,49 @@
+{
+  "video_context": {
+    "description": "Educational chemistry course, instructor speaking directly to camera, no visuals in video"
+  },
+  "paragraph": {
+    "id": "p_014",
+    "start_ms": 142300,
+    "end_ms": 158700,
+    "text": "When hydrochloric acid reacts with zinc it produces hydrogen gas...",
+    "keywords": ["hydrochloric acid", "zinc", "hydrogen gas", "reaction"]
+  },
+  "assets": [
+    {
+      "id": "asset_221",
+      "type": "image",
+      "name": "HCl zinc reaction photo",
+      "description": "photograph of hydrochloric acid reacting with zinc, bubbles visible",
+      "content": null
+    },
+    {
+      "id": "asset_304",
+      "type": "diagram",
+      "name": "electron transfer diagram",
+      "description": "shows electron movement between acid and zinc atoms",
+      "content": "Zn + 2HCl → ZnCl₂ + H₂"
+    },
+    {
+      "id": "asset_401",
+      "type": "formula",
+      "name": "reaction equation",
+      "description": "balanced chemical equation for the reaction",
+      "content": "Zn + 2HCl → ZnCl₂ + H₂↑"
+    },
+    {
+      "id": "asset_502",
+      "type": "chart",
+      "name": "reaction rate chart",
+      "description": "line chart showing reaction rate vs acid concentration",
+      "content": null
+    },
+    {
+      "id": "asset_610",
+      "type": "infographic",
+      "name": "acid metal reaction summary",
+      "description": "visual summary of all acid-metal reactions with products",
+      "content": null
+    }
+  ]
+}

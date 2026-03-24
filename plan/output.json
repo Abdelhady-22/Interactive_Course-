@@ -1,0 +1,52 @@
+{
+  "paragraph_id": "p_014",
+  "layout": {
+    "mode": "board_dominant",
+    "description": "Board takes the left 70% of the screen. Instructor appears as a small window in the bottom right corner.",
+    "instructor": {
+      "visible": true,
+      "position": "bottom_right",
+      "size": "small",
+      "style": "pip"
+    },
+    "board": {
+      "visible": true,
+      "position": "left",
+      "size": "large"
+    }
+  },
+  "assets": [
+    {
+      "id": "asset_401",
+      "type": "formula",
+      "name": "reaction equation",
+      "position": "board_center",
+      "size": "large",
+      "display_instruction": "Show the formula large and centered on the board. It is the main focus of this moment. Give it breathing room.",
+      "appear_at_ms": 142300,
+      "disappear_at_ms": 158700
+    },
+    {
+      "id": "asset_221",
+      "type": "image",
+      "name": "HCl zinc reaction photo",
+      "position": "board_bottom",
+      "size": "medium",
+      "display_instruction": "Show the experiment photo below the formula as a supporting visual. It gives the learner a real-world reference for what the formula describes.",
+      "appear_at_ms": 147000,
+      "disappear_at_ms": 158700
+    }
+  ],
+  "transition": {
+    "type": "fade",
+    "duration_ms": 400,
+    "instruction": "Fade in the board smoothly as this paragraph begins. Do not cut abruptly."
+  },
+  "script_display": {
+    "instruction": "Show the paragraph text at the bottom of the screen. Highlight each keyword as the instructor speaks it.",
+    "keywords_to_highlight": ["hydrochloric acid", "zinc", "hydrogen gas"]
+  },
+  "director_note": "This is a high-complexity moment. The formula is the core — give it the screen. The instructor steps back into a small corner so the learner focuses on the equation. The experiment photo appears a few seconds in once the formula is established, connecting theory to reality.",
+  "confidence": 0.92,
+  "decided_by": "llm"
+}

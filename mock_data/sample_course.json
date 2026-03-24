@@ -1,0 +1,83 @@
+{
+  "course": {
+    "title": "Introduction to Chemistry — Acids and Metals",
+    "description": "A beginner-friendly chemistry course covering acid-metal reactions, chemical equations, and reaction dynamics.",
+    "video_description": "Educational chemistry course. Instructor speaking directly to camera in a studio setting. No slides or visuals in the recorded video — just the instructor explaining concepts verbally. Tone is formal but approachable."
+  },
+  "paragraphs": [
+    {
+      "text": "Welcome to this course on chemistry. My name is Dr. Ahmed, and today we're going to explore one of the most fascinating topics in chemistry — how acids react with metals. By the end of this course, you'll understand the fundamental principles behind these reactions and be able to predict the products of any acid-metal reaction.",
+      "keywords": ["welcome", "course overview", "acids", "metals", "introduction"],
+      "start_ms": 0,
+      "end_ms": 28000
+    },
+    {
+      "text": "Let's start with a real experiment. When hydrochloric acid reacts with zinc, something remarkable happens. You can see bubbles forming on the surface of the zinc — that's hydrogen gas being released. The zinc slowly dissolves as it's converted into zinc chloride. This is a classic example of a single displacement reaction.",
+      "keywords": ["hydrochloric acid", "zinc", "hydrogen gas", "reaction", "experiment", "single displacement"],
+      "start_ms": 28500,
+      "end_ms": 58000
+    },
+    {
+      "text": "Now let's look at the chemical equation that describes this reaction. Zinc plus two molecules of hydrochloric acid yields zinc chloride plus hydrogen gas. Notice how the equation is balanced — we have the same number of each type of atom on both sides. The upward arrow next to H2 indicates that hydrogen escapes as a gas.",
+      "keywords": ["chemical equation", "balanced equation", "zinc chloride", "formula", "zinc", "hydrochloric acid"],
+      "start_ms": 58500,
+      "end_ms": 92000
+    },
+    {
+      "text": "The Industrial Revolution, which began in the late 18th century, transformed the way chemicals were produced. Before this period, acid production was a small-scale artisanal process. The invention of the lead chamber process for sulfuric acid production in 1746 marked a turning point. This historical context helps us understand why chemistry evolved from an experimental art into a rigorous science.",
+      "keywords": ["Industrial Revolution", "history", "sulfuric acid", "lead chamber process", "chemistry history"],
+      "start_ms": 92500,
+      "end_ms": 128000
+    },
+    {
+      "text": "Let's now examine some data. If we look at the reaction rate at different acid concentrations, we can see a clear pattern. At low concentrations, the reaction is slow. As we increase the acid concentration, the reaction rate increases proportionally. But there's a threshold — beyond a certain concentration, the rate plateaus because the zinc surface becomes the limiting factor.",
+      "keywords": ["reaction rate", "acid concentration", "data analysis", "graph", "limiting factor", "proportional"],
+      "start_ms": 128500,
+      "end_ms": 168000
+    },
+    {
+      "text": "Let's recap what we've learned today. First, acids react with metals to produce a salt and hydrogen gas. Second, these reactions can be represented by balanced chemical equations. Third, reaction rates depend on acid concentration but are ultimately limited by the available metal surface area. Thank you for joining me, and I'll see you in the next lesson.",
+      "keywords": ["summary", "recap", "key takeaways", "conclusion"],
+      "start_ms": 168500,
+      "end_ms": 198000
+    }
+  ],
+  "assets": [
+    {
+      "type": "image",
+      "name": "HCl zinc reaction photo",
+      "description": "Photograph of a laboratory experiment showing hydrochloric acid reacting with zinc metal in a beaker. Bubbles of hydrogen gas are clearly visible rising from the zinc surface. The solution has a slight cloudiness from dissolved zinc chloride.",
+      "content": null
+    },
+    {
+      "type": "formula",
+      "name": "Zinc-HCl reaction equation",
+      "description": "Balanced chemical equation for the reaction of zinc with hydrochloric acid, showing reactants and products with states.",
+      "content": "Zn(s) + 2HCl(aq) → ZnCl₂(aq) + H₂(g)↑"
+    },
+    {
+      "type": "diagram",
+      "name": "Electron transfer diagram",
+      "description": "Diagram showing the electron transfer mechanism during the zinc-HCl reaction. Shows zinc atoms losing two electrons to form Zn²⁺ ions while H⁺ ions from the acid gain electrons to form H₂ molecules.",
+      "content": "Zn → Zn²⁺ + 2e⁻ (oxidation)\n2H⁺ + 2e⁻ → H₂ (reduction)"
+    },
+    {
+      "type": "image",
+      "name": "Industrial Revolution chemical factory",
+      "description": "Historical painting depicting an 18th-century chemical factory during the Industrial Revolution. Shows large lead chambers used for sulfuric acid production, with workers and smoke stacks in the background.",
+      "content": null
+    },
+    {
+      "type": "chart",
+      "name": "Reaction rate vs acid concentration",
+      "description": "Line chart with acid concentration (mol/L) on the x-axis and reaction rate (mL H₂/min) on the y-axis. Shows a linear increase from 0.1 to 1.5 mol/L, then a plateau from 1.5 to 3.0 mol/L.",
+      "content": "X-axis: Acid concentration (mol/L), range 0-3.0\nY-axis: Reaction rate (mL H₂/min), range 0-50\nData points: (0.1, 3), (0.5, 15), (1.0, 30), (1.5, 43), (2.0, 45), (2.5, 46), (3.0, 46)"
+    },
+    {
+      "type": "infographic",
+      "name": "Acid-metal reactions summary",
+      "description": "Visual summary infographic showing the general pattern of acid-metal reactions. Lists common acids (HCl, H₂SO₄, HNO₃) on one side and common metals (Zn, Fe, Mg, Cu) on the other, with arrows showing which combinations react and their products.",
+      "content": "Acid + Metal → Salt + Hydrogen gas\nHCl + Zn → ZnCl₂ + H₂\nH₂SO₄ + Fe → FeSO₄ + H₂\nHCl + Mg → MgCl₂ + H₂\nHCl + Cu → No reaction (Cu is below hydrogen in reactivity series)"
+    }
+  ]
+}
