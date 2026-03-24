@@ -71,7 +71,7 @@ def _save_decision(db: Session, paragraph_id: uuid.UUID, decision: DecisionOutpu
         return db_decision
 
 
-def run_agent_on_course(db: Session, course_id: uuid.UUID, use_crewai: bool = True) -> list[Decision]:
+def run_agent_on_course(db: Session, course_id: uuid.UUID) -> list[Decision]:
     """Run the agent on all paragraphs of a course.
 
     Returns list of stored Decision objects.
@@ -105,7 +105,7 @@ def run_agent_on_course(db: Session, course_id: uuid.UUID, use_crewai: bool = Tr
     db.commit()
 
     # Run agent
-    decisions = process_course(para_dicts, asset_dicts, video_context, use_crewai=use_crewai)
+    decisions = process_course(para_dicts, asset_dicts, video_context)
 
     # Save all decisions
     stored = []
@@ -124,7 +124,6 @@ def run_agent_on_course(db: Session, course_id: uuid.UUID, use_crewai: bool = Tr
 def run_agent_on_paragraph(
     db: Session,
     decision_id: uuid.UUID,
-    use_crewai: bool = True,
 ) -> Decision:
     """Re-run the agent on a single paragraph."""
     decision = db.query(Decision).filter(Decision.id == decision_id).first()
@@ -145,7 +144,6 @@ def run_agent_on_paragraph(
         paragraph=_paragraph_to_dict(paragraph),
         assets=[_asset_to_dict(a) for a in assets],
         video_context=video_context,
-        use_crewai=use_crewai,
     )
 
     stored = _save_decision(db, paragraph.id, new_decision)

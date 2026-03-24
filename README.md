@@ -1,6 +1,6 @@
 # Interactive Course Platform
 
-AI-powered layout director for interactive educational courses. An instructor records a video, you provide a structured script with keywords and visual assets, and a hybrid AI agent (rule engine + CrewAI/LiteLLM) decides the optimal screen layout for each segment.
+AI-powered layout director for interactive educational courses. An instructor records a video, you provide a structured script with keywords and visual assets, and a hybrid AI agent decides the optimal screen layout for each segment.
 
 ## Architecture
 
@@ -13,7 +13,10 @@ Script + Keywords + Assets
          │ no match?
          ↓
   ┌─────────────┐
-  │ CrewAI Agent │ ← Layout Director persona via LiteLLM
+  │ CrewAI Agent │ ← Layout Director (role, goal, backstory)
+  │  ┌────────┐  │
+  │  │LiteLLM │  │ ← Provider layer (Ollama, GPT, Claude, Groq...)
+  │  └────────┘  │
   └──────┬──────┘
          ↓
   ┌─────────────┐
@@ -22,6 +25,9 @@ Script + Keywords + Assets
          ↓
    Layout Decisions → Editor Review → Approve → Publish → Learner Playback
 ```
+
+- **CrewAI** = the agent framework (structured agent with role/goal/task)
+- **LiteLLM** = the provider layer inside CrewAI (swap between Ollama, GPT, Claude, Groq via `.env`)
 
 ## Prerequisites
 

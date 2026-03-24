@@ -2,21 +2,23 @@
 
 Flow:
 1. Try rule engine first (fast, deterministic, free)
-2. If no rule matches → send to LLM via LiteLLM
-3. Validate the output against the DecisionOutput schema
-4. Return the decision
+2. If no rule matches → send to CrewAI agent (Layout Director)
+3. CrewAI uses LiteLLM under the hood for multi-provider LLM access
+4. Validate the output against the DecisionOutput schema
+5. Return the decision
 
-CrewAI is used to structure the LLM agent with a clear role,
-goal, and task — making decisions more consistent and the
-system extensible for future multi-agent workflows.
+Architecture:
+- CrewAI = the agent framework (role, goal, task structure)
+- LiteLLM = the provider layer inside CrewAI (Ollama, GPT, Claude, Groq, etc.)
+- No direct LiteLLM calls — all LLM interaction goes through CrewAI
 """
 import json
 import logging
+
 from crewai import Agent, Crew, Task
 
 from app.agent import rules
 from app.agent.prompts import SYSTEM_PROMPT, build_paragraph_prompt
-from app.agent import llm_client
 from app.config import settings
 from app.schemas.decision import DecisionOutput
 
@@ -24,7 +26,15 @@ logger = logging.getLogger(__name__)
 
 
 def _create_layout_director_agent() -> Agent:
-    """Create the CrewAI Layout Director agent."""
+    """Create the CrewAI Layout Director agent.
+
+    The `llm` parameter accepts a LiteLLM model string, which gives us
+    multi-provider support automatically:
+    - "ollama/llama3" → local Ollama
+    - "gpt-4o" → OpenAI
+    - "claude-3-sonnet-20240229" → Anthropic
+    - "groq/llama-3.1-70b-versatile" → Groq
+    """
     return Agent(
         role="Layout Director",
         goal=(
@@ -41,7 +51,7 @@ def _create_layout_director_agent() -> Agent:
         ),
         verbose=False,
         allow_delegation=False,
-        llm=settings.llm_model,
+        llm=settings.llm_model,  # LiteLLM model string for multi-provider support
     )
 
 
@@ -61,59 +71,54 @@ def _create_layout_task(
             f"---\n\n"
             f"{user_prompt}"
         ),
-        expected_output="A valid JSON object with layout, assets, transition, script_display, director_note, confidence, and decided_by fields.",
+        expected_output=(
+            "A valid JSON object with layout, assets, transition, "
+            "script_display, director_note, confidence, and decided_by fields."
+        ),
         agent=agent,
     )
 
 
-def _llm_decide_with_crewai(
+def _parse_crew_output(raw: str) -> dict:
+    """Parse the CrewAI output, handling markdown wrapping."""
+    # CrewAI sometimes wraps JSON in markdown code blocks
+    text = raw.strip()
+    if text.startswith("```json"):
+        text = text[7:]
+    if text.startswith("```"):
+        text = text[3:]
+    if text.endswith("```"):
+        text = text[:-3]
+    text = text.strip()
+    return json.loads(text)
+
+
+def _run_crew_agent(
     paragraph_id: str,
     paragraph: dict,
     assets: list[dict],
     video_context: dict,
 ) -> dict:
-    """Use CrewAI agent to make a layout decision.
+    """Run the CrewAI Layout Director agent on a single paragraph.
 
-    Falls back to direct LiteLLM call if CrewAI fails.
+    CrewAI handles:
+    - Agent persona (role, goal, backstory)
+    - Task structuring and execution
+    - LLM provider routing via LiteLLM (configured in settings.llm_model)
     """
-    try:
-        agent = _create_layout_director_agent()
-        task = _create_layout_task(agent, paragraph_id, paragraph, assets, video_context)
+    agent = _create_layout_director_agent()
+    task = _create_layout_task(agent, paragraph_id, paragraph, assets, video_context)
 
-        crew = Crew(
-            agents=[agent],
-            tasks=[task],
-            verbose=False,
-        )
+    crew = Crew(
+        agents=[agent],
+        tasks=[task],
+        verbose=False,
+    )
 
-        result = crew.kickoff()
-        raw = str(result)
+    result = crew.kickoff()
+    raw = str(result)
 
-        # Parse the CrewAI output
-        if raw.startswith("```json"):
-            raw = raw[7:]
-        if raw.startswith("```"):
-            raw = raw[3:]
-        if raw.endswith("```"):
-            raw = raw[:-3]
-        raw = raw.strip()
-
-        return json.loads(raw)
-
-    except Exception as e:
-        logger.warning(f"CrewAI failed ({e}), falling back to direct LiteLLM call")
-        return _llm_decide_direct(paragraph_id, paragraph, assets, video_context)
-
-
-def _llm_decide_direct(
-    paragraph_id: str,
-    paragraph: dict,
-    assets: list[dict],
-    video_context: dict,
-) -> dict:
-    """Direct LiteLLM call as fallback when CrewAI is unavailable."""
-    user_prompt = build_paragraph_prompt(paragraph_id, paragraph, assets, video_context)
-    return llm_client.complete(SYSTEM_PROMPT, user_prompt)
+    return _parse_crew_output(raw)
 
 
 def process_paragraph(
@@ -121,23 +126,21 @@ def process_paragraph(
     paragraph: dict,
     assets: list[dict],
     video_context: dict,
-    use_crewai: bool = True,
 ) -> DecisionOutput:
     """Process a single paragraph through the hybrid decision pipeline.
 
     Args:
         paragraph_id: UUID string of the paragraph
         paragraph: Dict with text, keywords, start_ms, end_ms
-        assets: List of available asset dicts (filtered for relevance if needed)
+        assets: List of available asset dicts
         video_context: Dict with video description
-        use_crewai: Whether to use CrewAI (True) or direct LiteLLM (False)
 
     Returns:
         DecisionOutput — validated decision ready to store
 
     Flow:
-        1. Try rules engine
-        2. If no rule matches → LLM (via CrewAI or direct)
+        1. Try rules engine (fast, free, deterministic)
+        2. If no rule matches → CrewAI agent (uses LiteLLM for provider routing)
         3. Validate output schema
     """
     # --- Step 1: Try rules ---
@@ -149,34 +152,33 @@ def process_paragraph(
         )
         return rule_decision
 
-    # --- Step 2: LLM decision ---
-    logger.info(f"Paragraph {paragraph_id}: No rule matched → calling LLM")
+    # --- Step 2: CrewAI agent ---
+    logger.info(f"Paragraph {paragraph_id}: No rule matched → running CrewAI agent")
 
-    if use_crewai:
-        raw_decision = _llm_decide_with_crewai(
+    try:
+        raw_decision = _run_crew_agent(
             paragraph_id, paragraph, assets, video_context
         )
-    else:
-        raw_decision = _llm_decide_direct(
-            paragraph_id, paragraph, assets, video_context
-        )
+    except Exception as e:
+        logger.error(f"Paragraph {paragraph_id}: CrewAI agent failed: {e}")
+        return _fallback_decision(paragraph_id, paragraph)
 
     # --- Step 3: Validate against schema ---
     try:
         decision = DecisionOutput(**raw_decision)
         logger.info(
-            f"Paragraph {paragraph_id}: LLM decided → "
+            f"Paragraph {paragraph_id}: CrewAI decided → "
             f"layout={decision.layout.mode}, confidence={decision.confidence}"
         )
         return decision
     except Exception as e:
-        logger.error(f"Paragraph {paragraph_id}: LLM output validation failed: {e}")
+        logger.error(f"Paragraph {paragraph_id}: Agent output validation failed: {e}")
         # Return a safe fallback
         return _fallback_decision(paragraph_id, paragraph)
 
 
 def _fallback_decision(paragraph_id: str, paragraph: dict) -> DecisionOutput:
-    """Safe fallback when both rules and LLM fail."""
+    """Safe fallback when both rules and CrewAI fail."""
     from app.models.decision import DecisionSource
     from app.schemas.decision import (
         BoardLayout, InstructorLayout, LayoutDecision,
@@ -202,7 +204,7 @@ def _fallback_decision(paragraph_id: str, paragraph: dict) -> DecisionOutput:
             instruction="Show paragraph text at the bottom.",
             keywords_to_highlight=paragraph.get("keywords", []),
         ),
-        director_note="FALLBACK: Both rule engine and LLM failed to produce a valid decision. Using safe split layout. Please review manually.",
+        director_note="FALLBACK: Both rule engine and CrewAI agent failed to produce a valid decision. Using safe split layout. Please review manually.",
         confidence=0.3,
         decided_by=DecisionSource.LLM,
     )
@@ -212,7 +214,6 @@ def process_course(
     paragraphs: list[dict],
     assets: list[dict],
     video_context: dict,
-    use_crewai: bool = True,
 ) -> list[DecisionOutput]:
     """Process all paragraphs in a course.
 
@@ -231,7 +232,6 @@ def process_course(
             paragraph=p,
             assets=assets,
             video_context=video_context,
-            use_crewai=use_crewai,
         )
         decisions.append(decision)
 
@@ -239,6 +239,6 @@ def process_course(
     logger.info(
         f"Processed {len(decisions)} paragraphs: "
         f"{sum(1 for d in decisions if d.decided_by == DecisionSource.RULE)} by rules, "
-        f"{sum(1 for d in decisions if d.decided_by == DecisionSource.LLM)} by LLM"
+        f"{sum(1 for d in decisions if d.decided_by == DecisionSource.LLM)} by CrewAI"
     )
     return decisions

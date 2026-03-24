@@ -1,10 +1,22 @@
-"""LiteLLM client — thin wrapper for multi-provider LLM access.
+"""LiteLLM configuration — multi-provider LLM access layer.
 
-Supports Ollama (local), Groq, Cohere, OpenAI, Anthropic, and any
-provider supported by LiteLLM — configured via .env.
+This module exists as a utility for providers that need direct
+LLM calls outside of CrewAI (e.g., future features like
+auto-summarization, keyword extraction, etc.).
+
+For the agent pipeline, LLM calls go through CrewAI, which uses
+LiteLLM internally via the `llm` parameter on the Agent.
+
+Supported providers (configured in .env via LLM_MODEL):
+- ollama/llama3         → local Ollama
+- gpt-4o               → OpenAI
+- claude-3-sonnet-...   → Anthropic
+- groq/llama-3.1-...   → Groq
+- cohere/command-r      → Cohere
 """
 import json
 import logging
+import os
 
 import litellm
 
@@ -16,12 +28,31 @@ logger = logging.getLogger(__name__)
 litellm.suppress_debug_info = True
 
 
+def configure_litellm():
+    """Set up LiteLLM environment for CrewAI to use.
+
+    CrewAI reads LiteLLM configuration from environment variables.
+    This function ensures they are set correctly from our .env config.
+    """
+    if settings.llm_api_base:
+        os.environ.setdefault("LITELLM_API_BASE", settings.llm_api_base)
+
+    if settings.llm_api_key:
+        os.environ.setdefault("LITELLM_API_KEY", settings.llm_api_key)
+
+    logger.info(f"LiteLLM configured: model={settings.llm_model}")
+
+
 def complete(system_prompt: str, user_prompt: str) -> dict:
     """Send a prompt to the configured LLM and return parsed JSON.
 
+    NOTE: This is NOT used by the agent pipeline (which uses CrewAI).
+    It's available for utility tasks like summarization, keyword
+    extraction, or other future features.
+
     Args:
-        system_prompt: The system prompt defining the agent's role
-        user_prompt: The user prompt with paragraph data
+        system_prompt: The system prompt defining the role
+        user_prompt: The user prompt with data
 
     Returns:
         Parsed JSON dict from the LLM response
@@ -36,16 +67,14 @@ def complete(system_prompt: str, user_prompt: str) -> dict:
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt},
         ],
-        "temperature": 0.3,  # Low temp for consistent, deterministic decisions
+        "temperature": 0.3,
         "max_tokens": 2000,
         "num_retries": 2,
     }
 
-    # Set API base for local providers (Ollama)
     if settings.llm_api_base:
         kwargs["api_base"] = settings.llm_api_base
 
-    # Set API key for cloud providers
     if settings.llm_api_key:
         kwargs["api_key"] = settings.llm_api_key
 
@@ -65,7 +94,7 @@ def complete(system_prompt: str, user_prompt: str) -> dict:
         raw_content = raw_content.strip()
 
         parsed = json.loads(raw_content)
-        logger.info(f"LLM response parsed successfully. Confidence: {parsed.get('confidence', 'N/A')}")
+        logger.info(f"LLM response parsed successfully.")
         return parsed
 
     except json.JSONDecodeError as e:
@@ -74,3 +103,7 @@ def complete(system_prompt: str, user_prompt: str) -> dict:
     except Exception as e:
         logger.error(f"LLM call failed: {e}")
         raise
+
+
+# Auto-configure on import
+configure_litellm()

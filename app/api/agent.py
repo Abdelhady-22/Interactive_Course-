@@ -1,11 +1,10 @@
 """Agent / Decision API endpoints."""
 import uuid
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.models.paragraph import Paragraph
 from app.schemas.decision import (
     DecisionListResponse,
     DecisionOverride,
@@ -21,7 +20,6 @@ router = APIRouter(prefix="/api", tags=["Agent & Decisions"])
 @router.post("/courses/{course_id}/process", response_model=DecisionListResponse)
 def process_course(
     course_id: uuid.UUID,
-    use_crewai: bool = Query(True, description="Use CrewAI agent (True) or direct LiteLLM (False)"),
     db: Session = Depends(get_db),
 ):
     """Run the AI agent on all paragraphs of a course.
@@ -37,7 +35,7 @@ def process_course(
         raise HTTPException(status_code=404, detail="Course not found")
 
     try:
-        decisions = agent_service.run_agent_on_course(db, course_id, use_crewai=use_crewai)
+        decisions = agent_service.run_agent_on_course(db, course_id)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -88,7 +86,6 @@ def override_decision(
 @router.post("/decisions/{decision_id}/rerun", response_model=DecisionResponse)
 def rerun_decision(
     decision_id: uuid.UUID,
-    use_crewai: bool = Query(True),
     db: Session = Depends(get_db),
 ):
     """Re-run the agent on a single paragraph.
@@ -97,7 +94,7 @@ def rerun_decision(
     Resets approval status.
     """
     try:
-        decision = agent_service.run_agent_on_paragraph(db, decision_id, use_crewai=use_crewai)
+        decision = agent_service.run_agent_on_paragraph(db, decision_id)
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
 
