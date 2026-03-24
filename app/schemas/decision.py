@@ -27,14 +27,15 @@ class LayoutDecision(BaseModel):
     """Full layout specification for a paragraph."""
     mode: str = Field(
         ...,
-        description="One of: instructor_only, board_only, board_dominant, "
+        description="One of the 14 layout modes: instructor_only, board_only, board_dominant, "
                     "instructor_dominant, split_50_50, instructor_behind_board, "
-                    "instructor_pip, board_with_side_strip"
+                    "instructor_pip, board_with_side_strip, fullscreen_asset, "
+                    "overlay_floating, multi_asset_grid, stacked_vertical, "
+                    "picture_in_picture_large, split_60_40"
     )
     description: str = Field(
         ...,
-        description="Human-readable description of the layout, e.g. "
-                    "'Board takes the left 70% of the screen. Instructor as PiP bottom right.'"
+        description="Human-readable description of what the screen looks like"
     )
     instructor: InstructorLayout
     board: BoardLayout
@@ -74,6 +75,31 @@ class ScriptDisplayDecision(BaseModel):
     keywords_to_highlight: list[str] = Field(default_factory=list)
 
 
+class PositionContinuity(BaseModel):
+    """Tells the frontend whether to keep or transition the instructor position.
+
+    When pin_instructor is True, the frontend should NOT animate the instructor
+    between this paragraph and the next — they stay in the same position.
+    This creates visual stability during asset-heavy sequences.
+    """
+    pin_instructor: bool = Field(
+        False,
+        description="If True, instructor stays in the same position as previous paragraph"
+    )
+    pin_from_paragraph: str | None = Field(
+        None,
+        description="The paragraph_id that started this pinned sequence"
+    )
+    transition_instructor: bool = Field(
+        True,
+        description="Whether the instructor position should animate (False = instant/no move)"
+    )
+    sequence_note: str = Field(
+        "",
+        description="Why this continuity decision was made"
+    )
+
+
 # --- The full decision schema ---
 
 class DecisionOutput(BaseModel):
@@ -85,6 +111,7 @@ class DecisionOutput(BaseModel):
     assets: list[AssetDecision] = Field(default_factory=list)
     transition: TransitionDecision
     script_display: ScriptDisplayDecision
+    continuity: PositionContinuity = Field(default_factory=PositionContinuity)
     director_note: str = Field(
         ...,
         description="Human-readable reasoning explaining why this layout was chosen"
@@ -101,6 +128,7 @@ class DecisionResponse(BaseModel):
     assets: list[dict]
     transition: dict
     script_display: dict
+    continuity: dict = Field(default_factory=dict)
     director_note: str
     confidence: float
     decided_by: DecisionSource
@@ -115,6 +143,7 @@ class DecisionOverride(BaseModel):
     assets: list[AssetDecision] | None = None
     transition: TransitionDecision | None = None
     script_display: ScriptDisplayDecision | None = None
+    continuity: PositionContinuity | None = None
     director_note: str | None = None
 
 

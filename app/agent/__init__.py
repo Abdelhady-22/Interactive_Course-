@@ -1,10 +1,11 @@
-"""Agent package — hybrid AI decision engine.
+"""Agent package — hybrid AI decision engine with cross-paragraph intelligence.
 
 Architecture:
-- rules.py      → Deterministic rule engine (checked first)
-- engine.py     → Orchestrator: rules → CrewAI → fallback
-- prompts.py    → System prompt and user prompt builder
-- llm_client.py → LiteLLM config (multi-provider layer for CrewAI)
+- sequence_analyzer.py → Pre-processes paragraphs to detect pinning sequences
+- rules.py             → 6 deterministic rules (checked first, free + instant)
+- engine.py            → Orchestrator: sequences → rules → CrewAI → fallback
+- prompts.py           → System prompt (14 layout modes + continuity) + user prompt
+- llm_client.py        → LiteLLM config (multi-provider layer for CrewAI)
 
 CrewAI is the agent framework. LiteLLM is the provider layer.
 """

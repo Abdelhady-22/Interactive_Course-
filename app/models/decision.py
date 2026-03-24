@@ -34,6 +34,7 @@ class Decision(Base):
     assets: Mapped[list] = mapped_column(JSON, nullable=False, default=list)
     transition: Mapped[dict] = mapped_column(JSON, nullable=False)
     script_display: Mapped[dict] = mapped_column(JSON, nullable=False)
+    continuity: Mapped[dict] = mapped_column(JSON, nullable=False, default=dict)
 
     # Agent reasoning
     director_note: Mapped[str] = mapped_column(Text, nullable=False)

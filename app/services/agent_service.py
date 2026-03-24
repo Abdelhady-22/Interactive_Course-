@@ -46,6 +46,7 @@ def _save_decision(db: Session, paragraph_id: uuid.UUID, decision: DecisionOutpu
         existing.assets = [a.model_dump() for a in decision.assets]
         existing.transition = decision.transition.model_dump()
         existing.script_display = decision.script_display.model_dump()
+        existing.continuity = decision.continuity.model_dump()
         existing.director_note = decision.director_note
         existing.confidence = decision.confidence
         existing.decided_by = decision.decided_by
@@ -60,6 +61,7 @@ def _save_decision(db: Session, paragraph_id: uuid.UUID, decision: DecisionOutpu
             assets=[a.model_dump() for a in decision.assets],
             transition=decision.transition.model_dump(),
             script_display=decision.script_display.model_dump(),
+            continuity=decision.continuity.model_dump(),
             director_note=decision.director_note,
             confidence=decision.confidence,
             decided_by=decision.decided_by,
@@ -169,6 +171,8 @@ def override_decision(
         decision.transition = override.transition.model_dump()
     if override.script_display is not None:
         decision.script_display = override.script_display.model_dump()
+    if override.continuity is not None:
+        decision.continuity = override.continuity.model_dump()
     if override.director_note is not None:
         decision.director_note = override.director_note
 
