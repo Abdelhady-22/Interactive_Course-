@@ -1,5 +1,4 @@
 """Application configuration loaded from environment variables."""
-import os
 from pathlib import Path
 
 from pydantic_settings import BaseSettings
@@ -15,9 +14,25 @@ class Settings(BaseSettings):
     llm_model: str = "ollama/llama3"
     llm_api_base: str | None = "http://localhost:11434"
     llm_api_key: str | None = None
+    llm_timeout_seconds: int = 120
+    llm_max_retries: int = 3
 
     # Uploads
     upload_dir: str = "./uploads"
+
+    # Logging
+    log_level: str = "INFO"
+    log_file: str = "logs/app.log"
+    log_max_bytes: int = 10_000_000  # 10MB
+    log_backup_count: int = 5
+
+    # App
+    app_name: str = "Interactive Course Platform"
+    app_version: str = "0.2.0"
+    debug: bool = False
+
+    # CORS
+    cors_origins: str = "*"  # Comma-separated origins or * for all
 
     @property
     def videos_dir(self) -> Path:

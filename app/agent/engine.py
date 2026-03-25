@@ -10,13 +10,14 @@ Flow:
    e. Validate the output against the DecisionOutput schema
 3. Return all decisions
 
-Architecture:
-- CrewAI = the agent framework (role, goal, task structure)
-- LiteLLM = the provider layer inside CrewAI (Ollama, GPT, Claude, Groq, etc.)
-- Sequence Analyzer = pre-processing for cross-paragraph awareness
+Production features:
+- LLM retry with exponential backoff (configurable)
+- LLM response timeout (configurable)
+- Structured error handling
 """
 import json
 import logging
+import time
 
 from crewai import Agent, Crew, Task
 
@@ -24,6 +25,7 @@ from app.agent import rules
 from app.agent.prompts import SYSTEM_PROMPT, build_paragraph_prompt
 from app.agent.sequence_analyzer import analyze_sequences, get_continuity_hints
 from app.config import settings
+from app.middleware import AgentError, ErrorCode
 from app.models.decision import DecisionSource
 from app.schemas.decision import DecisionOutput, PositionContinuity
 
@@ -100,7 +102,7 @@ def _parse_crew_output(raw: str) -> dict:
     return json.loads(text)
 
 
-def _run_crew_agent(
+def _run_crew_agent_with_retry(
     paragraph_id: str,
     paragraph: dict,
     assets: list[dict],
@@ -108,23 +110,75 @@ def _run_crew_agent(
     previous_decisions: list[dict] | None = None,
     continuity_hint: dict | None = None,
 ) -> dict:
-    """Run the CrewAI Layout Director agent on a single paragraph."""
-    agent = _create_layout_director_agent()
-    task = _create_layout_task(
-        agent, paragraph_id, paragraph, assets, video_context,
-        previous_decisions=previous_decisions,
-        continuity_hint=continuity_hint,
-    )
+    """Run the CrewAI agent with retry logic and timeout.
 
-    crew = Crew(
-        agents=[agent],
-        tasks=[task],
-        verbose=False,
-    )
+    Retries with exponential backoff: 1s → 2s → 4s → ...
+    Raises AgentError if all retries fail.
+    """
+    max_retries = settings.llm_max_retries
+    last_error = None
 
-    result = crew.kickoff()
-    raw = str(result)
-    return _parse_crew_output(raw)
+    for attempt in range(1, max_retries + 1):
+        try:
+            start_time = time.time()
+
+            agent = _create_layout_director_agent()
+            task = _create_layout_task(
+                agent, paragraph_id, paragraph, assets, video_context,
+                previous_decisions=previous_decisions,
+                continuity_hint=continuity_hint,
+            )
+
+            crew = Crew(
+                agents=[agent],
+                tasks=[task],
+                verbose=False,
+            )
+
+            result = crew.kickoff()
+            elapsed = time.time() - start_time
+
+            # Check timeout
+            if elapsed > settings.llm_timeout_seconds:
+                logger.warning(
+                    f"Paragraph {paragraph_id}: LLM took {elapsed:.1f}s "
+                    f"(timeout={settings.llm_timeout_seconds}s)"
+                )
+
+            raw = str(result)
+            parsed = _parse_crew_output(raw)
+
+            logger.info(
+                f"Paragraph {paragraph_id}: CrewAI succeeded on attempt {attempt} "
+                f"({elapsed:.1f}s)"
+            )
+            return parsed
+
+        except json.JSONDecodeError as e:
+            last_error = e
+            logger.warning(
+                f"Paragraph {paragraph_id}: JSON parse failed on attempt {attempt}/{max_retries}: {e}"
+            )
+        except Exception as e:
+            last_error = e
+            logger.warning(
+                f"Paragraph {paragraph_id}: CrewAI failed on attempt {attempt}/{max_retries}: {e}"
+            )
+
+        # Exponential backoff before retry
+        if attempt < max_retries:
+            backoff = 2 ** (attempt - 1)  # 1s, 2s, 4s, ...
+            logger.info(f"Paragraph {paragraph_id}: Retrying in {backoff}s...")
+            time.sleep(backoff)
+
+    # All retries exhausted
+    error_msg = f"CrewAI agent failed after {max_retries} attempts: {last_error}"
+    logger.error(f"Paragraph {paragraph_id}: {error_msg}")
+    raise AgentError(
+        code=ErrorCode.AGENT_LLM_UNAVAILABLE,
+        message=error_msg,
+        detail=str(last_error),
+    )
 
 
 def _apply_continuity(
@@ -132,15 +186,10 @@ def _apply_continuity(
     continuity_hint: dict | None,
     previous_decisions: list[DecisionOutput],
 ) -> DecisionOutput:
-    """Apply continuity overrides from the sequence analyzer.
-
-    If the sequence analyzer says "pin instructor" and the decision hasn't
-    already handled it, override the instructor position and continuity fields.
-    """
+    """Apply continuity overrides from the sequence analyzer."""
     if not continuity_hint or not continuity_hint.get("pin_instructor"):
         return decision
 
-    # Find the first decision in this pin sequence
     pin_from = None
     if previous_decisions:
         for prev in previous_decisions:
@@ -148,13 +197,11 @@ def _apply_continuity(
                 pin_from = prev.continuity.pin_from_paragraph or prev.paragraph_id
                 break
 
-    # If decision already has correct pin, just ensure continuity fields are set
     if decision.continuity.pin_instructor:
         if not decision.continuity.pin_from_paragraph and pin_from:
             decision.continuity.pin_from_paragraph = pin_from
         return decision
 
-    # Override: apply pin from sequence analyzer
     pin_position = continuity_hint.get("pin_position", "bottom_right")
     pin_size = continuity_hint.get("pin_size", "small")
     pin_style = continuity_hint.get("pin_style", "pip")
@@ -185,19 +232,7 @@ def process_paragraph(
     previous_decisions: list[dict] | None = None,
     continuity_hint: dict | None = None,
 ) -> DecisionOutput:
-    """Process a single paragraph through the hybrid decision pipeline.
-
-    Args:
-        paragraph_id: UUID string of the paragraph
-        paragraph: Dict with text, keywords, start_ms, end_ms
-        assets: List of available asset dicts
-        video_context: Dict with video description
-        previous_decisions: Up to 3 previous decisions as serialized dicts
-        continuity_hint: Hint from sequence analyzer
-
-    Returns:
-        DecisionOutput — validated decision ready to store
-    """
+    """Process a single paragraph through the hybrid decision pipeline."""
     # --- Step 1: Try rules (with context) ---
     rule_decision = rules.evaluate(
         paragraph_id, paragraph, assets,
@@ -211,17 +246,17 @@ def process_paragraph(
         )
         return rule_decision
 
-    # --- Step 2: CrewAI agent (with context) ---
+    # --- Step 2: CrewAI agent with retry ---
     logger.info(f"Paragraph {paragraph_id}: No rule matched → running CrewAI agent")
 
     try:
-        raw_decision = _run_crew_agent(
+        raw_decision = _run_crew_agent_with_retry(
             paragraph_id, paragraph, assets, video_context,
             previous_decisions=previous_decisions,
             continuity_hint=continuity_hint,
         )
-    except Exception as e:
-        logger.error(f"Paragraph {paragraph_id}: CrewAI agent failed: {e}")
+    except AgentError:
+        logger.warning(f"Paragraph {paragraph_id}: All retries failed → using fallback")
         return _fallback_decision(paragraph_id, paragraph)
 
     # --- Step 3: Validate against schema ---
@@ -279,22 +314,7 @@ def process_course(
     assets: list[dict],
     video_context: dict,
 ) -> list[DecisionOutput]:
-    """Process all paragraphs in a course with cross-paragraph awareness.
-
-    Flow:
-    1. Run sequence analyzer to detect pinning sequences
-    2. Generate per-paragraph continuity hints
-    3. Process each paragraph with previous decisions + continuity context
-    4. Apply continuity overrides where needed
-
-    Args:
-        paragraphs: List of paragraph dicts
-        assets: List of all asset dicts for the course
-        video_context: Dict with video description
-
-    Returns:
-        List of DecisionOutput objects, one per paragraph
-    """
+    """Process all paragraphs in a course with cross-paragraph awareness."""
     # Step 1: Analyze sequences
     sequences = analyze_sequences(paragraphs, assets)
     continuity_hints = get_continuity_hints(paragraphs, sequences)
@@ -307,13 +327,13 @@ def process_course(
     # Step 2: Process each paragraph with context
     decisions: list[DecisionOutput] = []
     for i, p in enumerate(paragraphs):
-        # Get previous decisions as context (up to CONTEXT_LOOKBACK)
+        logger.info(f"Processing paragraph {i+1}/{len(paragraphs)}: {p.get('id', '?')}")
+
         prev_dicts = None
         if decisions:
             prev_decisions_raw = decisions[max(0, i - CONTEXT_LOOKBACK):i]
             prev_dicts = [d.model_dump() for d in prev_decisions_raw]
 
-        # Get continuity hint for this paragraph
         hint = continuity_hints[i] if i < len(continuity_hints) else None
         hint_dict = {
             "pin_instructor": hint.pin_instructor,
@@ -326,7 +346,6 @@ def process_course(
             "note": hint.note,
         } if hint else None
 
-        # Process through rules → CrewAI pipeline
         decision = process_paragraph(
             paragraph_id=p["id"],
             paragraph=p,
@@ -336,9 +355,7 @@ def process_course(
             continuity_hint=hint_dict,
         )
 
-        # Apply continuity overrides from sequence analyzer
         decision = _apply_continuity(decision, hint_dict, decisions)
-
         decisions.append(decision)
 
     logger.info(

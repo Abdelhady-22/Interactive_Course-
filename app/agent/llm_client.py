@@ -69,7 +69,8 @@ def complete(system_prompt: str, user_prompt: str) -> dict:
         ],
         "temperature": 0.3,
         "max_tokens": 2000,
-        "num_retries": 2,
+        "num_retries": settings.llm_max_retries,
+        "timeout": settings.llm_timeout_seconds,
     }
 
     if settings.llm_api_base:

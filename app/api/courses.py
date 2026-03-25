@@ -71,13 +71,30 @@ async def upload_video(course_id: uuid.UUID, file: UploadFile = File(...), db: S
     if not course:
         raise HTTPException(status_code=404, detail="Course not found")
 
+    # Validate file type
+    allowed_extensions = {"mp4", "webm", "mov", "avi", "mkv"}
+    ext = file.filename.split(".")[-1].lower() if file.filename else "mp4"
+    if ext not in allowed_extensions:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Invalid file type '.{ext}'. Allowed: {', '.join(allowed_extensions)}"
+        )
+
+    # Validate file size (500MB max)
+    max_size = 500 * 1024 * 1024  # 500MB
+    contents = await file.read()
+    if len(contents) > max_size:
+        raise HTTPException(
+            status_code=413,
+            detail=f"File too large ({len(contents) // (1024*1024)}MB). Maximum: 500MB"
+        )
+
     # Save video file
-    ext = file.filename.split(".")[-1] if file.filename else "mp4"
     filename = f"{course_id}.{ext}"
     filepath = settings.videos_dir / filename
 
     with open(filepath, "wb") as f:
-        shutil.copyfileobj(file.file, f)
+        f.write(contents)
 
     course.video_filename = filename
     db.commit()

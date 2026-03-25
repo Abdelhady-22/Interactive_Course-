@@ -107,7 +107,14 @@ def run_agent_on_course(db: Session, course_id: uuid.UUID) -> list[Decision]:
     db.commit()
 
     # Run agent
-    decisions = process_course(para_dicts, asset_dicts, video_context)
+    try:
+        decisions = process_course(para_dicts, asset_dicts, video_context)
+    except Exception as e:
+        # Reset status on failure
+        course.status = CourseStatus.DRAFT
+        db.commit()
+        logger.error(f"Course {course_id}: agent processing failed: {e}")
+        raise
 
     # Save all decisions
     stored = []

@@ -1,7 +1,7 @@
 """Pydantic schemas for Paragraph API requests and responses."""
 import uuid
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 
 class ParagraphCreate(BaseModel):
@@ -10,6 +10,12 @@ class ParagraphCreate(BaseModel):
     keywords: list[str] = Field(default_factory=list)
     start_ms: int = Field(..., ge=0)
     end_ms: int = Field(..., ge=0)
+
+    @model_validator(mode="after")
+    def validate_time_range(self):
+        if self.end_ms <= self.start_ms:
+            raise ValueError(f"end_ms ({self.end_ms}) must be greater than start_ms ({self.start_ms})")
+        return self
 
 
 class ParagraphBulkCreate(BaseModel):
