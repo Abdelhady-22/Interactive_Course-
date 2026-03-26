@@ -1,0 +1,78 @@
+# Groq Cloud deployment — no Ollama needed, minimal resources
+# Only runs: PostgreSQL + FastAPI app
+
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: ic-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: interactive_course
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ic-migrate
+    environment:
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-postgres}@db:5432/interactive_course
+    depends_on:
+      db:
+        condition: service_healthy
+    command: >
+      sh -c "
+        echo '=== Running migrations ===' &&
+        alembic upgrade head 2>/dev/null || python -c 'from app.database import Base, engine; Base.metadata.create_all(bind=engine); print(\"Tables created\")' &&
+        echo '=== Seeding mock data ===' &&
+        python -m mock_data.seed_db &&
+        echo '=== Done ==='
+      "
+    restart: "no"
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ic-app
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-postgres}@db:5432/interactive_course
+      LLM_MODEL: ${LLM_MODEL:-groq/llama-3.1-70b-versatile}
+      LLM_API_KEY: ${LLM_API_KEY}
+      LLM_API_BASE: ""
+      LLM_TIMEOUT_SECONDS: 120
+      LLM_MAX_RETRIES: 3
+      LOG_LEVEL: INFO
+      LOG_FILE: logs/app.log
+    volumes:
+      - app_logs:/app/logs
+      - app_uploads:/app/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8000/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+volumes:
+  pg_data:
+  app_logs:
+  app_uploads:
