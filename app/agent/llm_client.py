@@ -31,14 +31,37 @@ litellm.suppress_debug_info = True
 def configure_litellm():
     """Set up LiteLLM environment for CrewAI to use.
 
-    CrewAI reads LiteLLM configuration from environment variables.
-    This function ensures they are set correctly from our .env config.
+    CrewAI/LiteLLM looks up API keys by provider-specific env vars:
+    - groq/* → GROQ_API_KEY
+    - gpt-* / openai/* → OPENAI_API_KEY
+    - anthropic/* → ANTHROPIC_API_KEY
+    - cohere/* → COHERE_API_KEY
+
+    This function maps our single LLM_API_KEY setting to the correct env var.
     """
     if settings.llm_api_base:
         os.environ.setdefault("LITELLM_API_BASE", settings.llm_api_base)
 
     if settings.llm_api_key:
+        # Set generic key
         os.environ.setdefault("LITELLM_API_KEY", settings.llm_api_key)
+
+        # Set provider-specific key based on model prefix
+        model = settings.llm_model.lower()
+        provider_env_map = {
+            "groq/": "GROQ_API_KEY",
+            "gpt-": "OPENAI_API_KEY",
+            "openai/": "OPENAI_API_KEY",
+            "anthropic/": "ANTHROPIC_API_KEY",
+            "claude-": "ANTHROPIC_API_KEY",
+            "cohere/": "COHERE_API_KEY",
+        }
+
+        for prefix, env_var in provider_env_map.items():
+            if model.startswith(prefix):
+                os.environ.setdefault(env_var, settings.llm_api_key)
+                logger.info(f"Set {env_var} for provider '{prefix.rstrip('/')}'")
+                break
 
     logger.info(f"LiteLLM configured: model={settings.llm_model}")
 
