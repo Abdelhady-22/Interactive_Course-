@@ -1,0 +1,64 @@
+{
+  "course": {
+    "title": "Introduction to Machine Learning",
+    "description": "A comprehensive course covering the fundamentals of machine learning, from basic concepts to neural network architectures.",
+    "video_description": "Educational technology course. Instructor speaking directly to camera in a modern studio with a whiteboard behind them. No slides or visuals in the recorded video. Tone is energetic and conversational."
+  },
+  "paragraphs": [
+    {
+      "text": "Hi everyone, welcome to this course on machine learning. I'm Sarah, and I'll be your guide through this exciting field. Today we're going to start from the very basics and work our way up to understanding how machines can actually learn from data. No prior knowledge is needed — just curiosity and enthusiasm.",
+      "keywords": ["welcome", "introduction", "machine learning", "basics"],
+      "start_ms": 0,
+      "end_ms": 25000
+    },
+    {
+      "text": "So what exactly is machine learning? At its core, it's about teaching computers to recognize patterns in data without being explicitly programmed. Instead of writing rules like 'if temperature is above 30 and humidity is above 80, predict rain', we give the computer thousands of examples and let it figure out the patterns on its own. This is a paradigm shift from traditional programming.",
+      "keywords": ["definition", "pattern recognition", "paradigm shift", "traditional programming"],
+      "start_ms": 25500,
+      "end_ms": 55000
+    },
+    {
+      "text": "There are three main types of machine learning. Supervised learning is when we train with labeled data — we know the right answers. Unsupervised learning finds hidden patterns in data without labels. And reinforcement learning is about agents learning through trial and error, like training a robot to walk. Each approach is suited to different types of problems.",
+      "keywords": ["supervised learning", "unsupervised learning", "reinforcement learning", "types"],
+      "start_ms": 55500,
+      "end_ms": 88000
+    },
+    {
+      "text": "Let's talk about a common misconception. Many people think machine learning and artificial intelligence are the same thing. They're not. AI is the broader goal — creating machines that can exhibit intelligent behavior. Machine learning is just one approach to achieving that goal. Deep learning, in turn, is a subset of machine learning that uses neural networks with many layers.",
+      "keywords": ["misconception", "artificial intelligence", "deep learning", "neural networks", "comparison"],
+      "start_ms": 88500,
+      "end_ms": 120000
+    },
+    {
+      "text": "Now let me walk you through a real-world example. Think about your email spam filter. Every time you mark an email as spam or not spam, you're actually providing training data. The algorithm learns features like certain words, sender patterns, and formatting styles that are associated with spam. Over time, it gets better and better at catching spam without you having to create specific rules.",
+      "keywords": ["real-world example", "spam filter", "training data", "features", "practical application"],
+      "start_ms": 120500,
+      "end_ms": 155000
+    },
+    {
+      "text": "One of the biggest challenges in machine learning is something called overfitting. Imagine you're studying for an exam by memorizing every single practice question and answer. You'd score perfectly on those practice questions, but struggle with new questions you've never seen. That's exactly what happens when a model overfits — it memorizes the training data instead of learning general patterns.",
+      "keywords": ["overfitting", "generalization", "challenge", "training vs testing"],
+      "start_ms": 155500,
+      "end_ms": 190000
+    },
+    {
+      "text": "The field has evolved incredibly fast. Just ten years ago, image recognition was unreliable and self-driving cars were science fiction. Today, we have language models that can write essays, systems that can diagnose diseases from medical images, and autonomous vehicles navigating real roads. The pace of innovation is accelerating, and we're only scratching the surface.",
+      "keywords": ["evolution", "image recognition", "self-driving cars", "language models", "future"],
+      "start_ms": 190500,
+      "end_ms": 225000
+    },
+    {
+      "text": "But let's not forget the ethical implications. Machine learning models can inherit and amplify biases present in their training data. If a hiring algorithm is trained on historicaly biased data, it will perpetuate that bias. As practitioners, we have a responsibility to audit our models for fairness, ensure transparency in decision-making, and consider the societal impact of our work.",
+      "keywords": ["ethics", "bias", "fairness", "transparency", "responsibility", "societal impact"],
+      "start_ms": 225500,
+      "end_ms": 260000
+    },
+    {
+      "text": "Let's recap what we covered today. Machine learning teaches computers to learn from data. There are three main types: supervised, unsupervised, and reinforcement learning. Overfitting is a key challenge. The field is advancing rapidly but comes with ethical responsibilities. In our next lesson, we'll dive into our first algorithm — linear regression. See you then!",
+      "keywords": ["summary", "recap", "key takeaways", "conclusion", "next lesson"],
+      "start_ms": 260500,
+      "end_ms": 295000
+    }
+  ],
+  "assets": []
+}

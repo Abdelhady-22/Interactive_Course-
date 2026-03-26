@@ -1,0 +1,572 @@
+{
+    "course_id": "54b10d9c-a475-4872-91c1-17cd01ceb8bd",
+    "title": "Introduction to Chemistry \u2014 Acids and Metals",
+    "video_filename": null,
+    "decisions": [
+        {
+            "id": "d0a93a54-31c9-4d02-8066-6f3ad4b70801",
+            "paragraph_id": "c027e7f5-bdf4-4a1d-991e-7ac587041c90",
+            "layout": {
+                "mode": "board_dominant",
+                "description": "Board takes the left 70% with formula. Instructor as PiP bottom right.",
+                "instructor": {
+                    "visible": true,
+                    "position": "bottom_right",
+                    "size": "small",
+                    "style": "pip"
+                },
+                "board": {
+                    "visible": true,
+                    "position": "left",
+                    "size": "large"
+                }
+            },
+            "assets": [
+                {
+                    "id": "5cd2c5ec-54a1-40e5-a88d-7db69c3fd11a",
+                    "type": "formula",
+                    "name": "Zinc-HCl reaction equation",
+                    "position": "board_center",
+                    "size": "large",
+                    "display_instruction": "Show formula 'Zinc-HCl reaction equation' large and centered on the board.",
+                    "appear_at_ms": 0,
+                    "disappear_at_ms": 28000
+                }
+            ],
+            "transition": {
+                "type": "fade",
+                "duration_ms": 400,
+                "instruction": "Smooth fade transition."
+            },
+            "script_display": {
+                "instruction": "Show the paragraph text at the bottom of the screen. Highlight keywords as the instructor speaks.",
+                "keywords_to_highlight": [
+                    "welcome",
+                    "course overview",
+                    "acids",
+                    "metals",
+                    "introduction"
+                ]
+            },
+            "continuity": {
+                "pin_instructor": true,
+                "pin_from_paragraph": null,
+                "transition_instructor": true,
+                "sequence_note": "Paragraphs 1-10 all have visual assets (chart, diagram, formula, image, infographic). Pinning instructor at bottom_right for visual stability across 10 paragraphs."
+            },
+            "director_note": "Formula-heavy paragraph. Formula is the core content \u2014 give it maximum screen space.",
+            "confidence": 0.9,
+            "decided_by": "rule",
+            "is_approved": true
+        },
+        {
+            "id": "cdd59ed3-6618-4e0c-b8d6-01837a38fb25",
+            "paragraph_id": "448db811-9151-4e5a-b8e3-b62341b6d028",
+            "layout": {
+                "mode": "board_dominant",
+                "description": "Board takes the left 70% with formula. Instructor as PiP bottom right.",
+                "instructor": {
+                    "visible": true,
+                    "position": "bottom_right",
+                    "size": "small",
+                    "style": "pip"
+                },
+                "board": {
+                    "visible": true,
+                    "position": "left",
+                    "size": "large"
+                }
+            },
+            "assets": [
+                {
+                    "id": "5cd2c5ec-54a1-40e5-a88d-7db69c3fd11a",
+                    "type": "formula",
+                    "name": "Zinc-HCl reaction equation",
+                    "position": "board_center",
+                    "size": "large",
+                    "display_instruction": "Show formula 'Zinc-HCl reaction equation' large and centered on the board.",
+                    "appear_at_ms": 28500,
+                    "disappear_at_ms": 58000
+                }
+            ],
+            "transition": {
+                "type": "none",
+                "duration_ms": 0,
+                "instruction": "No instructor transition \u2014 pinned."
+            },
+            "script_display": {
+                "instruction": "Show the paragraph text at the bottom of the screen. Highlight keywords as the instructor speaks.",
+                "keywords_to_highlight": [
+                    "hydrochloric acid",
+                    "zinc",
+                    "hydrogen gas",
+                    "reaction",
+                    "experiment",
+                    "single displacement"
+                ]
+            },
+            "continuity": {
+                "pin_instructor": true,
+                "pin_from_paragraph": "c027e7f5-bdf4-4a1d-991e-7ac587041c90",
+                "transition_instructor": false,
+                "sequence_note": "Continuing pinned sequence (paragraph 2/10)."
+            },
+            "director_note": "Formula-heavy paragraph. Formula is the core content \u2014 give it maximum screen space.",
+            "confidence": 0.9,
+            "decided_by": "rule",
+            "is_approved": true
+        },
+        {
+            "id": "174f9abc-bc27-464d-a9f6-417ccdf0bb6d",
+            "paragraph_id": "622b7fa3-f932-447d-b5e6-62688ce9d29a",
+            "layout": {
+                "mode": "board_dominant",
+                "description": "Board takes the left 70% with formula. Instructor as PiP bottom right.",
+                "instructor": {
+                    "visible": true,
+                    "position": "bottom_right",
+                    "size": "small",
+                    "style": "pip"
+                },
+                "board": {
+                    "visible": true,
+                    "position": "left",
+                    "size": "large"
+                }
+            },
+            "assets": [
+                {
+                    "id": "5cd2c5ec-54a1-40e5-a88d-7db69c3fd11a",
+                    "type": "formula",
+                    "name": "Zinc-HCl reaction equation",
+                    "position": "board_center",
+                    "size": "large",
+                    "display_instruction": "Show formula 'Zinc-HCl reaction equation' large and centered on the board.",
+                    "appear_at_ms": 58500,
+                    "disappear_at_ms": 92000
+                }
+            ],
+            "transition": {
+                "type": "none",
+                "duration_ms": 0,
+                "instruction": "No instructor transition \u2014 pinned."
+            },
+            "script_display": {
+                "instruction": "Show the paragraph text at the bottom of the screen. Highlight keywords as the instructor speaks.",
+                "keywords_to_highlight": [
+                    "chemical equation",
+                    "balanced equation",
+                    "zinc chloride",
+                    "formula",
+                    "zinc",
+                    "hydrochloric acid"
+                ]
+            },
+            "continuity": {
+                "pin_instructor": true,
+                "pin_from_paragraph": "c027e7f5-bdf4-4a1d-991e-7ac587041c90",
+                "transition_instructor": false,
+                "sequence_note": "Continuing pinned sequence (paragraph 3/10)."
+            },
+            "director_note": "Formula-heavy paragraph. Formula is the core content \u2014 give it maximum screen space.",
+            "confidence": 0.9,
+            "decided_by": "rule",
+            "is_approved": true
+        },
+        {
+            "id": "4e6bcc98-9ae3-4fb2-8dda-c12444a5a711",
+            "paragraph_id": "e18b845b-6384-42b7-adab-73aaf1411143",
+            "layout": {
+                "mode": "board_dominant",
+                "description": "Board takes the left 70% with formula. Instructor as PiP bottom right.",
+                "instructor": {
+                    "visible": true,
+                    "position": "bottom_right",
+                    "size": "small",
+                    "style": "pip"
+                },
+                "board": {
+                    "visible": true,
+                    "position": "left",
+                    "size": "large"
+                }
+            },
+            "assets": [
+                {
+                    "id": "5cd2c5ec-54a1-40e5-a88d-7db69c3fd11a",
+                    "type": "formula",
+                    "name": "Zinc-HCl reaction equation",
+                    "position": "board_center",
+                    "size": "large",
+                    "display_instruction": "Show formula 'Zinc-HCl reaction equation' large and centered on the board.",
+                    "appear_at_ms": 92500,
+                    "disappear_at_ms": 125000
+                }
+            ],
+            "transition": {
+                "type": "none",
+                "duration_ms": 0,
+                "instruction": "No instructor transition \u2014 pinned."
+            },
+            "script_display": {
+                "instruction": "Show the paragraph text at the bottom of the screen. Highlight keywords as the instructor speaks.",
+                "keywords_to_highlight": [
+                    "electron transfer",
+                    "redox reaction",
+                    "oxidation",
+                    "reduction",
+                    "diagram",
+                    "atomic level"
+                ]
+            },
+            "continuity": {
+                "pin_instructor": true,
+                "pin_from_paragraph": "c027e7f5-bdf4-4a1d-991e-7ac587041c90",
+                "transition_instructor": false,
+                "sequence_note": "Continuing pinned sequence (paragraph 4/10)."
+            },
+            "director_note": "Formula-heavy paragraph. Formula is the core content \u2014 give it maximum screen space.",
+            "confidence": 0.9,
+            "decided_by": "rule",
+            "is_approved": true
+        },
+        {
+            "id": "1fa0ced0-3d7f-40cd-9f5e-83d0e7e74e0f",
+            "paragraph_id": "8911171a-2a1a-4d78-97fa-534e77f2f952",
+            "layout": {
+                "mode": "board_dominant",
+                "description": "Board takes the left 70% with formula. Instructor as PiP bottom right.",
+                "instructor": {
+                    "visible": true,
+                    "position": "bottom_right",
+                    "size": "small",
+                    "style": "pip"
+                },
+                "board": {
+                    "visible": true,
+                    "position": "left",
+                    "size": "large"
+                }
+            },
+            "assets": [
+                {
+                    "id": "5cd2c5ec-54a1-40e5-a88d-7db69c3fd11a",
+                    "type": "formula",
+                    "name": "Zinc-HCl reaction equation",
+                    "position": "board_center",
+                    "size": "large",
+                    "display_instruction": "Show formula 'Zinc-HCl reaction equation' large and centered on the board.",
+                    "appear_at_ms": 125500,
+                    "disappear_at_ms": 158000
+                }
+            ],
+            "transition": {
+                "type": "none",
+                "duration_ms": 0,
+                "instruction": "No instructor transition \u2014 pinned."
+            },
+            "script_display": {
+                "instruction": "Show the paragraph text at the bottom of the screen. Highlight keywords as the instructor speaks.",
+                "keywords_to_highlight": [
+                    "reactivity series",
+                    "explanation",
+                    "copper",
+                    "zinc",
+                    "why it works"
+                ]
+            },
+            "continuity": {
+                "pin_instructor": true,
+                "pin_from_paragraph": "c027e7f5-bdf4-4a1d-991e-7ac587041c90",
+                "transition_instructor": false,
+                "sequence_note": "Continuing pinned sequence (paragraph 5/10)."
+            },
+            "director_note": "Formula-heavy paragraph. Formula is the core content \u2014 give it maximum screen space.",
+            "confidence": 0.9,
+            "decided_by": "rule",
+            "is_approved": true
+        },
+        {
+            "id": "d7e42e85-60b5-473a-abee-9962d5bd0104",
+            "paragraph_id": "08f3836c-eaba-48ed-bb35-7c275ab02421",
+            "layout": {
+                "mode": "board_dominant",
+                "description": "Board takes the left 70% with formula. Instructor as PiP bottom right.",
+                "instructor": {
+                    "visible": true,
+                    "position": "bottom_right",
+                    "size": "small",
+                    "style": "pip"
+                },
+                "board": {
+                    "visible": true,
+                    "position": "left",
+                    "size": "large"
+                }
+            },
+            "assets": [
+                {
+                    "id": "5cd2c5ec-54a1-40e5-a88d-7db69c3fd11a",
+                    "type": "formula",
+                    "name": "Zinc-HCl reaction equation",
+                    "position": "board_center",
+                    "size": "large",
+                    "display_instruction": "Show formula 'Zinc-HCl reaction equation' large and centered on the board.",
+                    "appear_at_ms": 158500,
+                    "disappear_at_ms": 198000
+                }
+            ],
+            "transition": {
+                "type": "none",
+                "duration_ms": 0,
+                "instruction": "No instructor transition \u2014 pinned."
+            },
+            "script_display": {
+                "instruction": "Show the paragraph text at the bottom of the screen. Highlight keywords as the instructor speaks.",
+                "keywords_to_highlight": [
+                    "reaction rate",
+                    "acid concentration",
+                    "data analysis",
+                    "graph",
+                    "limiting factor",
+                    "proportional"
+                ]
+            },
+            "continuity": {
+                "pin_instructor": true,
+                "pin_from_paragraph": "c027e7f5-bdf4-4a1d-991e-7ac587041c90",
+                "transition_instructor": false,
+                "sequence_note": "Continuing pinned sequence (paragraph 6/10)."
+            },
+            "director_note": "Formula-heavy paragraph. Formula is the core content \u2014 give it maximum screen space.",
+            "confidence": 0.9,
+            "decided_by": "rule",
+            "is_approved": true
+        },
+        {
+            "id": "9d023b51-8a0c-4db5-bcde-3805f45689ca",
+            "paragraph_id": "dfedf9ac-098e-475f-88cd-5e26bcba4a0b",
+            "layout": {
+                "mode": "board_dominant",
+                "description": "Board takes the left 70% with formula. Instructor as PiP bottom right.",
+                "instructor": {
+                    "visible": true,
+                    "position": "bottom_right",
+                    "size": "small",
+                    "style": "pip"
+                },
+                "board": {
+                    "visible": true,
+                    "position": "left",
+                    "size": "large"
+                }
+            },
+            "assets": [
+                {
+                    "id": "5cd2c5ec-54a1-40e5-a88d-7db69c3fd11a",
+                    "type": "formula",
+                    "name": "Zinc-HCl reaction equation",
+                    "position": "board_center",
+                    "size": "large",
+                    "display_instruction": "Show formula 'Zinc-HCl reaction equation' large and centered on the board.",
+                    "appear_at_ms": 198500,
+                    "disappear_at_ms": 232000
+                }
+            ],
+            "transition": {
+                "type": "none",
+                "duration_ms": 0,
+                "instruction": "No instructor transition \u2014 pinned."
+            },
+            "script_display": {
+                "instruction": "Show the paragraph text at the bottom of the screen. Highlight keywords as the instructor speaks.",
+                "keywords_to_highlight": [
+                    "temperature effects",
+                    "reaction rate",
+                    "chart",
+                    "comparison",
+                    "graph",
+                    "data analysis"
+                ]
+            },
+            "continuity": {
+                "pin_instructor": true,
+                "pin_from_paragraph": "c027e7f5-bdf4-4a1d-991e-7ac587041c90",
+                "transition_instructor": false,
+                "sequence_note": "Continuing pinned sequence (paragraph 7/10)."
+            },
+            "director_note": "Formula-heavy paragraph. Formula is the core content \u2014 give it maximum screen space.",
+            "confidence": 0.9,
+            "decided_by": "rule",
+            "is_approved": true
+        },
+        {
+            "id": "cce9b95e-1962-4589-8ce6-72470c5767f1",
+            "paragraph_id": "b61b73e4-ca69-42e1-b015-510cc028e19c",
+            "layout": {
+                "mode": "board_dominant",
+                "description": "Board takes the left 70% with formula. Instructor as PiP bottom right.",
+                "instructor": {
+                    "visible": true,
+                    "position": "bottom_right",
+                    "size": "small",
+                    "style": "pip"
+                },
+                "board": {
+                    "visible": true,
+                    "position": "left",
+                    "size": "large"
+                }
+            },
+            "assets": [
+                {
+                    "id": "5cd2c5ec-54a1-40e5-a88d-7db69c3fd11a",
+                    "type": "formula",
+                    "name": "Zinc-HCl reaction equation",
+                    "position": "board_center",
+                    "size": "large",
+                    "display_instruction": "Show formula 'Zinc-HCl reaction equation' large and centered on the board.",
+                    "appear_at_ms": 232500,
+                    "disappear_at_ms": 265000
+                }
+            ],
+            "transition": {
+                "type": "none",
+                "duration_ms": 0,
+                "instruction": "No instructor transition \u2014 pinned."
+            },
+            "script_display": {
+                "instruction": "Show the paragraph text at the bottom of the screen. Highlight keywords as the instructor speaks.",
+                "keywords_to_highlight": [
+                    "close-up",
+                    "photograph",
+                    "zinc surface",
+                    "microscope",
+                    "detailed",
+                    "experiment"
+                ]
+            },
+            "continuity": {
+                "pin_instructor": true,
+                "pin_from_paragraph": "c027e7f5-bdf4-4a1d-991e-7ac587041c90",
+                "transition_instructor": false,
+                "sequence_note": "Continuing pinned sequence (paragraph 8/10)."
+            },
+            "director_note": "Formula-heavy paragraph. Formula is the core content \u2014 give it maximum screen space.",
+            "confidence": 0.9,
+            "decided_by": "rule",
+            "is_approved": true
+        },
+        {
+            "id": "b056ad75-5dd4-4ae2-93ab-40917d0f8b49",
+            "paragraph_id": "03eb193b-8f18-40be-be8e-51e4ce3b73b8",
+            "layout": {
+                "mode": "board_dominant",
+                "description": "Board 70% with image/diagram. Instructor PiP bottom right.",
+                "instructor": {
+                    "visible": true,
+                    "position": "bottom_right",
+                    "size": "small",
+                    "style": "pip"
+                },
+                "board": {
+                    "visible": true,
+                    "position": "left",
+                    "size": "large"
+                }
+            },
+            "assets": [
+                {
+                    "id": "7f47c63a-959a-4758-9828-db46ef4f8048",
+                    "type": "image",
+                    "name": "Industrial Revolution chemical factory",
+                    "position": "board_center",
+                    "size": "large",
+                    "display_instruction": "Show 'Industrial Revolution chemical factory' prominently on the board. Historical painting depicting an 18th-century chemical factory during the Industrial Revolution. Shows large lead chambers used for sulfuric acid production.",
+                    "appear_at_ms": 265500,
+                    "disappear_at_ms": 298000
+                }
+            ],
+            "transition": {
+                "type": "none",
+                "duration_ms": 0,
+                "instruction": "No instructor transition \u2014 pinned."
+            },
+            "script_display": {
+                "instruction": "Show the paragraph text at the bottom of the screen. Highlight keywords as the instructor speaks.",
+                "keywords_to_highlight": [
+                    "Industrial Revolution",
+                    "history",
+                    "sulfuric acid",
+                    "lead chamber process",
+                    "chemistry history"
+                ]
+            },
+            "continuity": {
+                "pin_instructor": true,
+                "pin_from_paragraph": "c027e7f5-bdf4-4a1d-991e-7ac587041c90",
+                "transition_instructor": false,
+                "sequence_note": "Continuing pinned sequence (paragraph 9/10)."
+            },
+            "director_note": "Visual asset 'Industrial Revolution chemical factory' matches the context. Board dominant with instructor as PiP.",
+            "confidence": 0.88,
+            "decided_by": "rule",
+            "is_approved": true
+        },
+        {
+            "id": "bb410655-2d67-4656-a255-7d99d1442e4b",
+            "paragraph_id": "5dbeccbb-98ec-47b7-b75d-b6cf0da7e665",
+            "layout": {
+                "mode": "board_dominant",
+                "description": "Board takes the left 70% with formula. Instructor as PiP bottom right.",
+                "instructor": {
+                    "visible": true,
+                    "position": "bottom_right",
+                    "size": "small",
+                    "style": "pip"
+                },
+                "board": {
+                    "visible": true,
+                    "position": "left",
+                    "size": "large"
+                }
+            },
+            "assets": [
+                {
+                    "id": "5cd2c5ec-54a1-40e5-a88d-7db69c3fd11a",
+                    "type": "formula",
+                    "name": "Zinc-HCl reaction equation",
+                    "position": "board_center",
+                    "size": "large",
+                    "display_instruction": "Show formula 'Zinc-HCl reaction equation' large and centered on the board.",
+                    "appear_at_ms": 298500,
+                    "disappear_at_ms": 338000
+                }
+            ],
+            "transition": {
+                "type": "fade",
+                "duration_ms": 400,
+                "instruction": "Smooth fade transition."
+            },
+            "script_display": {
+                "instruction": "Show the paragraph text at the bottom of the screen. Highlight keywords as the instructor speaks.",
+                "keywords_to_highlight": [
+                    "summary",
+                    "recap",
+                    "key takeaways",
+                    "conclusion"
+                ]
+            },
+            "continuity": {
+                "pin_instructor": true,
+                "pin_from_paragraph": "c027e7f5-bdf4-4a1d-991e-7ac587041c90",
+                "transition_instructor": false,
+                "sequence_note": "Continuing pinned sequence (paragraph 10/10)."
+            },
+            "director_note": "Formula-heavy paragraph. Formula is the core content \u2014 give it maximum screen space.",
+            "confidence": 0.9,
+            "decided_by": "rule",
+            "is_approved": true
+        }
+    ]
+}
