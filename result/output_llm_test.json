@@ -1,0 +1,408 @@
+{
+    "course_id": "b3fe047c-e1f4-4652-84a4-12890278817f",
+    "title": "Introduction to Machine Learning",
+    "video_filename": null,
+    "decisions": [
+        {
+            "id": "00739ba3-19ed-488c-85aa-549156a39dac",
+            "paragraph_id": "893ac455-28e6-4ae1-a72c-f7d4a8c4bf6f",
+            "layout": {
+                "mode": "instructor_only",
+                "description": "Instructor fills the entire screen. No board or assets \u2014 welcome/introduction moment.",
+                "instructor": {
+                    "visible": true,
+                    "position": "center",
+                    "size": "full",
+                    "style": "normal"
+                },
+                "board": {
+                    "visible": false,
+                    "position": "none",
+                    "size": "none"
+                }
+            },
+            "assets": [],
+            "transition": {
+                "type": "fade",
+                "duration_ms": 400,
+                "instruction": "Smooth fade transition into this segment."
+            },
+            "script_display": {
+                "instruction": "Show the paragraph text at the bottom of the screen. Highlight keywords as the instructor speaks.",
+                "keywords_to_highlight": [
+                    "welcome",
+                    "introduction",
+                    "machine learning",
+                    "basics"
+                ]
+            },
+            "continuity": {
+                "pin_instructor": false,
+                "pin_from_paragraph": null,
+                "transition_instructor": true,
+                "sequence_note": "Intro \u2014 instructor takes full screen."
+            },
+            "director_note": "Introduction/greeting paragraph. Instructor is the sole focus \u2014 build personal connection.",
+            "confidence": 0.95,
+            "decided_by": "rule",
+            "is_approved": false
+        },
+        {
+            "id": "7312233e-44be-4c90-8e02-ea9d19060cf0",
+            "paragraph_id": "67b67672-e076-4c48-bfae-a02f015f80de",
+            "layout": {
+                "mode": "instructor_only",
+                "description": "The instructor fills the entire screen, with no board or assets visible. This layout is chosen to emphasize the instructor's explanation and to create a personal connection with the learner.",
+                "instructor": {
+                    "visible": true,
+                    "position": "center",
+                    "size": "full",
+                    "style": "normal"
+                },
+                "board": {
+                    "visible": false,
+                    "position": "none",
+                    "size": "none"
+                }
+            },
+            "assets": [],
+            "transition": {
+                "type": "fade",
+                "duration_ms": 500,
+                "instruction": "Fade in the instructor from black, with a smooth transition to grab the learner's attention."
+            },
+            "script_display": {
+                "instruction": "Display the paragraph text on the screen, with the keywords 'definition', 'pattern recognition', 'paradigm shift', and 'traditional programming' highlighted in a subtle way to draw the learner's attention.",
+                "keywords_to_highlight": [
+                    "definition",
+                    "pattern recognition",
+                    "paradigm shift",
+                    "traditional programming"
+                ]
+            },
+            "continuity": {
+                "pin_instructor": false,
+                "pin_from_paragraph": null,
+                "transition_instructor": true,
+                "sequence_note": "This paragraph is a standalone explanation, and the instructor's position is not pinned from a previous paragraph. The transition instructor flag is set to true to allow for a smooth fade-in."
+            },
+            "director_note": "The instructor_only layout is chosen for this paragraph to create a personal and direct connection with the learner. The explanation of machine learning is a critical concept, and the instructor's enthusiasm and energy are essential in conveying this information. By not displaying any assets, the focus remains on the instructor, and the learner can fully absorb the explanation.",
+            "confidence": 0.95,
+            "decided_by": "llm",
+            "is_approved": false
+        },
+        {
+            "id": "3984a58c-3bee-4d01-b53a-c16bebc72bab",
+            "paragraph_id": "12424495-9a78-4d84-8836-5b731589cbc3",
+            "layout": {
+                "mode": "instructor_dominant",
+                "description": "The instructor fills most of the screen, with a small overlay for supporting visuals if needed.",
+                "instructor": {
+                    "visible": true,
+                    "position": "center",
+                    "size": "large",
+                    "style": "normal"
+                },
+                "board": {
+                    "visible": false,
+                    "position": "none",
+                    "size": "none"
+                }
+            },
+            "assets": [],
+            "transition": {
+                "type": "fade",
+                "duration_ms": 500,
+                "instruction": "Fade in from the previous instructor-only layout."
+            },
+            "script_display": {
+                "instruction": "Display the paragraph text as subtitles at the bottom of the screen, highlighting the keywords 'supervised learning', 'unsupervised learning', and 'reinforcement learning'.",
+                "keywords_to_highlight": [
+                    "supervised learning",
+                    "unsupervised learning",
+                    "reinforcement learning"
+                ]
+            },
+            "continuity": {
+                "pin_instructor": false,
+                "pin_from_paragraph": null,
+                "transition_instructor": true,
+                "sequence_note": "This is a standalone paragraph without a specific sequence context, so the instructor's position is not pinned from a previous paragraph."
+            },
+            "director_note": "Given that the previous paragraphs were instructor-only and this paragraph introduces new concepts of machine learning types without specific visual assets, an instructor-dominant layout is chosen to maintain focus on the instructor's explanation while keeping the option open for potential small overlays if simple supporting visuals are added. The fade transition is used for a smooth entry into this new topic.",
+            "confidence": 0.9,
+            "decided_by": "llm",
+            "is_approved": false
+        },
+        {
+            "id": "898ab80e-1be6-49ab-99fe-49d927477264",
+            "paragraph_id": "31b7a5ff-d06a-4103-9442-b37cf3dcb968",
+            "layout": {
+                "mode": "instructor_dominant",
+                "description": "The instructor takes center stage, with no assets on the board, focusing the learner's attention on the explanation.",
+                "instructor": {
+                    "visible": true,
+                    "position": "center",
+                    "size": "large",
+                    "style": "normal"
+                },
+                "board": {
+                    "visible": false,
+                    "position": "none",
+                    "size": "none"
+                }
+            },
+            "assets": [],
+            "transition": {
+                "type": "fade",
+                "duration_ms": 500,
+                "instruction": "Smoothly fade into the instructor-dominant layout."
+            },
+            "script_display": {
+                "instruction": "Display the paragraph text on the screen, below the instructor, in a clear and readable font.",
+                "keywords_to_highlight": [
+                    "misconception",
+                    "artificial intelligence",
+                    "deep learning",
+                    "neural networks",
+                    "comparison"
+                ]
+            },
+            "continuity": {
+                "pin_instructor": false,
+                "pin_from_paragraph": null,
+                "transition_instructor": true,
+                "sequence_note": "This paragraph is a standalone explanation, requiring no asset pinning."
+            },
+            "director_note": "The instructor-dominant layout is chosen to emphasize the conversational tone and focus on the explanation of key concepts, without any distractions from assets. This layout serves the teaching moment by keeping the learner's attention on the instructor, facilitating a clearer understanding of the differentiation between AI, machine learning, and deep learning.",
+            "confidence": 0.95,
+            "decided_by": "llm",
+            "is_approved": false
+        },
+        {
+            "id": "d731d7f1-f739-4859-a24e-abf24ce5eeff",
+            "paragraph_id": "a8dca1cc-9cb6-44c4-8ede-aa321b54be09",
+            "layout": {
+                "mode": "instructor_dominant",
+                "description": "The instructor is prominently displayed on the screen, taking up about 70% of the space, with no board or assets visible.",
+                "instructor": {
+                    "visible": true,
+                    "position": "center",
+                    "size": "large",
+                    "style": "normal"
+                },
+                "board": {
+                    "visible": false,
+                    "position": "none",
+                    "size": "none"
+                }
+            },
+            "assets": [],
+            "transition": {
+                "type": "fade",
+                "duration_ms": 500,
+                "instruction": "Fade from the previous layout to the new one"
+            },
+            "script_display": {
+                "instruction": "Display the paragraph text at the bottom of the screen",
+                "keywords_to_highlight": [
+                    "real-world example",
+                    "spam filter",
+                    "training data",
+                    "features",
+                    "practical application"
+                ]
+            },
+            "continuity": {
+                "pin_instructor": false,
+                "pin_from_paragraph": null,
+                "transition_instructor": true,
+                "sequence_note": "Standalone paragraph with no sequence context"
+            },
+            "director_note": "Since there are no available assets and the instructor is speaking directly to the camera, an instructor_dominant layout is chosen to focus on the instructor's energetic and conversational tone. The lack of assets allows for the instructor to be the primary focus, making this layout the best choice for this teaching moment.",
+            "confidence": 0.9,
+            "decided_by": "llm",
+            "is_approved": false
+        },
+        {
+            "id": "d93d7905-5c79-4c80-91b5-e640ec98661e",
+            "paragraph_id": "80d6fdef-916c-4eec-bd24-3df1a10b5323",
+            "layout": {
+                "mode": "split_50_50",
+                "description": "Fallback: equal split between instructor and board.",
+                "instructor": {
+                    "visible": true,
+                    "position": "right",
+                    "size": "medium",
+                    "style": "normal"
+                },
+                "board": {
+                    "visible": true,
+                    "position": "left",
+                    "size": "medium"
+                }
+            },
+            "assets": [],
+            "transition": {
+                "type": "fade",
+                "duration_ms": 400,
+                "instruction": "Default fade transition."
+            },
+            "script_display": {
+                "instruction": "Show paragraph text at the bottom.",
+                "keywords_to_highlight": [
+                    "overfitting",
+                    "generalization",
+                    "challenge",
+                    "training vs testing"
+                ]
+            },
+            "continuity": {
+                "pin_instructor": false,
+                "pin_from_paragraph": null,
+                "transition_instructor": true,
+                "sequence_note": "Fallback decision \u2014 no continuity context available."
+            },
+            "director_note": "FALLBACK: Both rule engine and CrewAI agent failed. Using safe split layout. Please review manually.",
+            "confidence": 0.3,
+            "decided_by": "llm",
+            "is_approved": false
+        },
+        {
+            "id": "64d58f09-c0fb-4942-afb7-2b240916119f",
+            "paragraph_id": "79ea9206-0da3-4493-8669-66a7202f5db3",
+            "layout": {
+                "mode": "split_50_50",
+                "description": "Fallback: equal split between instructor and board.",
+                "instructor": {
+                    "visible": true,
+                    "position": "right",
+                    "size": "medium",
+                    "style": "normal"
+                },
+                "board": {
+                    "visible": true,
+                    "position": "left",
+                    "size": "medium"
+                }
+            },
+            "assets": [],
+            "transition": {
+                "type": "fade",
+                "duration_ms": 400,
+                "instruction": "Default fade transition."
+            },
+            "script_display": {
+                "instruction": "Show paragraph text at the bottom.",
+                "keywords_to_highlight": [
+                    "evolution",
+                    "image recognition",
+                    "self-driving cars",
+                    "language models",
+                    "future"
+                ]
+            },
+            "continuity": {
+                "pin_instructor": false,
+                "pin_from_paragraph": null,
+                "transition_instructor": true,
+                "sequence_note": "Fallback decision \u2014 no continuity context available."
+            },
+            "director_note": "FALLBACK: Both rule engine and CrewAI agent failed. Using safe split layout. Please review manually.",
+            "confidence": 0.3,
+            "decided_by": "llm",
+            "is_approved": false
+        },
+        {
+            "id": "af79342a-7717-4656-a346-8503c0dd9b18",
+            "paragraph_id": "495d2718-5882-47f6-9249-920476793097",
+            "layout": {
+                "mode": "split_50_50",
+                "description": "Fallback: equal split between instructor and board.",
+                "instructor": {
+                    "visible": true,
+                    "position": "right",
+                    "size": "medium",
+                    "style": "normal"
+                },
+                "board": {
+                    "visible": true,
+                    "position": "left",
+                    "size": "medium"
+                }
+            },
+            "assets": [],
+            "transition": {
+                "type": "fade",
+                "duration_ms": 400,
+                "instruction": "Default fade transition."
+            },
+            "script_display": {
+                "instruction": "Show paragraph text at the bottom.",
+                "keywords_to_highlight": [
+                    "ethics",
+                    "bias",
+                    "fairness",
+                    "transparency",
+                    "responsibility",
+                    "societal impact"
+                ]
+            },
+            "continuity": {
+                "pin_instructor": false,
+                "pin_from_paragraph": null,
+                "transition_instructor": true,
+                "sequence_note": "Fallback decision \u2014 no continuity context available."
+            },
+            "director_note": "FALLBACK: Both rule engine and CrewAI agent failed. Using safe split layout. Please review manually.",
+            "confidence": 0.3,
+            "decided_by": "llm",
+            "is_approved": false
+        },
+        {
+            "id": "1a3172ba-c9f7-4776-bd59-3ed5189f905d",
+            "paragraph_id": "a53eb2ab-b464-4f9c-b718-297d8ed36999",
+            "layout": {
+                "mode": "instructor_only",
+                "description": "Instructor fills the entire screen for the summary/recap moment.",
+                "instructor": {
+                    "visible": true,
+                    "position": "center",
+                    "size": "full",
+                    "style": "normal"
+                },
+                "board": {
+                    "visible": false,
+                    "position": "none",
+                    "size": "none"
+                }
+            },
+            "assets": [],
+            "transition": {
+                "type": "fade",
+                "duration_ms": 400,
+                "instruction": "Smooth fade transition into this segment."
+            },
+            "script_display": {
+                "instruction": "Show the paragraph text at the bottom of the screen. Highlight keywords as the instructor speaks.",
+                "keywords_to_highlight": [
+                    "summary",
+                    "recap",
+                    "key takeaways",
+                    "conclusion",
+                    "next lesson"
+                ]
+            },
+            "continuity": {
+                "pin_instructor": false,
+                "pin_from_paragraph": null,
+                "transition_instructor": true,
+                "sequence_note": "Summary \u2014 instructor takes full screen."
+            },
+            "director_note": "Summary/recap paragraph. Instructor wraps up \u2014 no visual distractions.",
+            "confidence": 0.95,
+            "decided_by": "rule",
+            "is_approved": false
+        }
+    ]
+}
